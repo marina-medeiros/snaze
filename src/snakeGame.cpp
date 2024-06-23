@@ -43,6 +43,9 @@ void Controller::read_config(std::string path){
             int jj = 0;
             for(char &c : line){
                 levelMatrix[ii][jj] = c;
+                if(c == level.get_emptySpace()){
+                    level.add_emptyLocation(std::make_pair(ii, jj));
+                }
                 jj++;
             }
         }
