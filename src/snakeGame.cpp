@@ -1,10 +1,26 @@
 #include <fstream>
 #include <vector>
-#include <sstream>
 #include <iostream>
 #include <utility>
+#include <iostream>
+#include <string>
+#include <limits>
+#include <vector>
+#include <cstdlib> // for exit()
 
 #include "snakeGame.h"
+
+/**
+ * @brief Clears the console screen.
+ */
+void clear_screen() {
+    #ifdef _WIN32
+        system("CLS");
+    #else
+        // Assume POSIX
+        std::cout << "\033[2J\033[1;1H";
+    #endif
+}
 
 bool file_exists(const std::string &str) {
     std::ifstream fs{str};
