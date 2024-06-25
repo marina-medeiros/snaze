@@ -138,9 +138,13 @@ void Controller::change_state(game_state_e new_state) {
 
 void Controller::display_welcome() const {
     std::cout<< "--->  Welcome to the classic snake game  <---" << std::endl;
-    std::cout<< "      -copyright DIMAp/UFRN 2017-2024-       " << std::endl;
+    std::cout<< "       -copyright DIMAp/UFRN 2017-2024-      " << std::endl;
     show_game_options();
     show_enter();
+}
+
+void Controller::display_running()const{
+  show_level_options();
 }
 
 void Controller::show_game_options() const {
@@ -150,6 +154,15 @@ void Controller::show_game_options() const {
     std::cout<< "-----------------------------------------------------" << std::endl;
 }
 
+void Controller::show_level_options() const {
+    std::string heart = "\u2665";           // ♥
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    std::cout<< "Lives: ";
+    for (int ii = 0; ii<snakeLives; ii++) {std::cout<<heart<<" ";}
+    std::cout<<" | Score: "/*<< snakeLives*/ <<" | Food eaten " << foodEaten<< " out of " <<totalFood <<std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+}
+
 void Controller::show_enter() const {
-    std::cout<< ">>> Press ‹ENTER> to start the game!" << std::endl;
+    std::cout<< ">>> Press <ENTER> to start the game!" << std::endl;
 }
