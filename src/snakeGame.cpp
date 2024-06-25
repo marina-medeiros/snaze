@@ -83,6 +83,9 @@ void Controller::process_events(){
     case game_state_e::WELCOME:
       m_next = read_user_enter();
       break;
+    case game_state_e::RUNNING:
+      m_next = read_user_enter();
+      break;
   }
 }
 
@@ -97,8 +100,7 @@ void Controller::update(){
       };
       break;
     case game_state_e::RUNNING:
-      std::cout<< "YEY" <<std::endl;
-      game_over = true;
+      if (m_next) {game_over=true;}
       break;
   }
 }
@@ -110,16 +112,19 @@ void Controller::render() const{
     case game_state_e::WELCOME:
       display_welcome();
       break;
+    case game_state_e::RUNNING:
+      display_running();
+      break;
     }
 }
 
 
 /**
- * @brief Reads a confirmation (yes/no) from the user.
+ * @brief Reads a confirmation enter from the user.
  * @return True if the user confirmed with enter, otherwise false.
  */
 bool Controller::read_user_enter() const {
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     char c = std::cin.get();
     return c == '\n';
 }
