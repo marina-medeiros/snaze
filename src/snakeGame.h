@@ -45,7 +45,7 @@ private:
     int fps;
     int snakeLives;
     int totalFood;
-    int foodEaten;
+    int foodEaten = 0;
 
 public:
     void read_config(std::string path);
@@ -101,8 +101,10 @@ private:
     void display_won()const;
     /// Show lost message
     void display_lost()const;
-    /// Show options
+    /// Show game options
     void show_game_options()const;
+    /// Show level options
+    void show_level_options() const;
     /// Show press enter
     void show_enter()const;
 
