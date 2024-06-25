@@ -39,12 +39,11 @@ std::string validate_input(int argc, char* argv[]){
 
 int main(int argc, char* argv[]) {
     Data data(validate_input(argc,argv));
-    // life::Life lifeManager(data);
-    
-    // while (not hg.game_over()) {
-    //     hg.process_events();
-    //     hg.update();
-    //     hg.render();
-    // }
+    Controller snaze (data);
+    while (!snaze.game_over) {
+        snaze.process_events();
+        snaze.update();
+        snaze.render();
+    }
     return EXIT_SUCCESS; 
 }
