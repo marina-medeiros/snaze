@@ -73,3 +73,78 @@ void Controller::read_config(std::string path){
 
     inputFile.close();
 }
+/**
+ * @brief Processes events based on the current game state.
+ */
+void Controller::process_events(){
+  switch (m_game_state) {
+    case game_state_e::STARTING:
+      break;
+    case game_state_e::WELCOME:
+      m_next = read_user_enter();
+      break;
+  }
+}
+
+void Controller::update(){
+  switch (m_game_state) {
+    case game_state_e::STARTING:
+      change_state(game_state_e::WELCOME);
+      break;
+    case game_state_e::WELCOME:
+      if (m_next) {
+          change_state(game_state_e::RUNNING);
+      };
+      break;
+    case game_state_e::RUNNING:
+      std::cout<< "YEY" <<std::endl;
+      game_over = true;
+      break;
+  }
+}
+
+void Controller::render() const{
+    switch (m_game_state) {
+    case game_state_e::STARTING:
+      break;
+    case game_state_e::WELCOME:
+      display_welcome();
+      break;
+    }
+}
+
+
+/**
+ * @brief Reads a confirmation (yes/no) from the user.
+ * @return True if the user confirmed with enter, otherwise false.
+ */
+bool Controller::read_user_enter() const {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    char c = std::cin.get();
+    return c == '\n';
+}
+
+void Controller::change_state(game_state_e new_state) {
+  if(!(m_game_state == game_state_e::RUNNING)){
+  clear_screen();
+  }
+  m_game_state = new_state;
+}
+
+void Controller::display_welcome() const {
+    std::cout<< "--->  Welcome to the classic snake game  <---" << std::endl;
+    std::cout<< "      -copyright DIMAp/UFRN 2017-2024-       " << std::endl;
+    show_game_options();
+    show_enter();
+}
+
+void Controller::show_game_options() const {
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    std::cout<< "Levels loaded: "<< numberOfLevels <<" | Snake lives: "<< snakeLives <<" | Apples to eat: " << totalFood <<std::endl;
+    std::cout<< "Clear all levels to win the game. Good luck!!!" << std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+}
+
+void Controller::show_enter() const {
+    std::cout<< ">>> Press ‹ENTER> to start the game!" << std::endl;
+}
