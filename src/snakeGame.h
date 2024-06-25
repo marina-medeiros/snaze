@@ -40,7 +40,10 @@ private:
     Player player;
     //Snake snake
     std::vector<Level> levels;
+    std::string cfgFile;
     int numberOfLevels;
+    int fps;
+    int snakeLives;
     int totalFood;
     int foodEaten;
 
