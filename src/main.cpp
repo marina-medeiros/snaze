@@ -9,6 +9,7 @@
 #include <fstream>
 
 #include "data.h"
+#include "snakeGame.h"
 
 /*!
 * Checks if a directory exists.
@@ -18,7 +19,7 @@
 * @return True if the directory exists, false otherwise.
 */
 
-bool file_exists(const std::string &str) {
+bool file_exists1(const std::string &str) {
     std::ifstream fs{str};
     return fs.is_open();
 }
@@ -29,7 +30,7 @@ std::string validate_input(int argc, char* argv[]){
         std::cout<< "Invalid number of arguments, try again" <<std::endl;
         exit(1);
     }
-    if(!file_exists(argv[1])){
+    if(!file_exists1(argv[1])){
         std::cout<< "File doesn't exist, try again" <<std::endl;
         exit(1);
     }
@@ -38,12 +39,11 @@ std::string validate_input(int argc, char* argv[]){
 
 int main(int argc, char* argv[]) {
     Data data(validate_input(argc,argv));
-    // life::Life lifeManager(data);
-    
-    // while (not hg.game_over()) {
-    //     hg.process_events();
-    //     hg.update();
-    //     hg.render();
-    // }
+    Controller snaze (data);
+    while (!snaze.game_over) {
+        snaze.process_events();
+        snaze.update();
+        snaze.render();
+    }
     return EXIT_SUCCESS; 
 }
