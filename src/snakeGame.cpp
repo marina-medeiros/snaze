@@ -114,19 +114,84 @@ void Controller::process_events(){
   }
 }
 
-void Controller::update(){
-  switch (m_game_state) {
+void Controller::update() {
+switch (m_game_state) {
     case game_state_e::STARTING:
-      change_state(game_state_e::WELCOME);
-      break;
+        change_state(game_state_e::WELCOME);
+        break;
+
     case game_state_e::WELCOME:
-      if (m_next) {
-          change_state(game_state_e::RUNNING);
-      };
-      break;
+        if (m_next) {
+            change_state(game_state_e::RUNNING);
+            currentLevel++;
+            m_next = false; // Resetar m_next após transição de estado
+        }
+        break;
+
     case game_state_e::RUNNING:
-      if (m_next) {game_over=true;}
-      break;
+        if (m_start) {
+            snake.initialize(levels[currentLevel].get_spawnLocation().first, levels[currentLevel].get_spawnLocation().second, DOWN);
+            levels[currentLevel].update_matrix(snake);
+            levels[currentLevel].randomly_place_foood(snake);
+            m_start = false; // Resetar m_start após inicialização
+        }
+
+        {
+            // Bloco adicional para controlar o escopo de novas variáveis locais
+            Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze());
+            snake.set_headFacing(newDir);
+            snake.move_snake(levels[currentLevel]);
+            clear_screen();
+
+            if (!snake.get_isAlive()) {
+              snake.set_lives(snake.get_lives() - 1);
+              if((snake.get_lives() != 0)){
+                change_state(game_state_e::CRASHED);
+              }else{
+                change_state(game_state_e::LOST);
+              }
+            }
+            if(foodEaten == totalFood){
+              if(currentLevel == levels.size()){
+                change_state(game_state_e::WON);
+              }else{
+                change_state(game_state_e::LEVELUP);
+              }
+            }
+
+        }
+        break;
+
+    case game_state_e::CRASHED:
+        if (m_next) {
+            //resetar tamanho da cobra
+            change_state(game_state_e::RUNNING);
+            //spawnar a cobra dnv 
+            m_next = false; // Resetar m_next após transição de estado
+        }
+        break;
+
+    case game_state_e::LEVELUP:
+        if (m_next) {
+            currentLevel++;
+            //resetar o tamanho da cobra
+            change_state(game_state_e::RUNNING);
+            m_start = true;
+            m_next = false;
+        }
+        break;
+
+    case game_state_e::LOST:
+        if (m_next) {
+            game_over = true;
+        }
+        break;
+
+    case game_state_e::WON:
+        if (m_next) {
+            game_over = true;
+        }
+        break;
   }
 }
 
