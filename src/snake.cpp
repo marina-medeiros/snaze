@@ -34,6 +34,58 @@ void Snake::update_snake_isAlive(std::vector<std::vector<char>>& matrix) {
     }
 }
 
+void Snake::move_snake(Level &level){
+    std::pair<int, int> newHead = m_headLocation;
+    Direction dir = m_headFacing;
+    bool inBounds = true;
+    switch (dir) {
+    case UP:
+        if (newHead.first - 1 >= 0){
+            newHead.first--;
+        }else{
+            inBounds = false;
+        }
+        break;
+    case DOWN:
+        if (newHead.first + 1 < static_cast<int>(level.get_levelMaze().size())){
+            newHead.first++;
+        }else{
+            inBounds = false;
+        }
+        break;
+    case LEFT:
+        if (newHead.second - 1 >= 0) {
+            newHead.second--;
+        }else{
+            inBounds = false;
+        }
+        break;
+    case RIGHT:
+        if (newHead.second + 1 < static_cast<int>(level.get_levelMaze()[0].size())) {
+            newHead.second++;
+        }else{
+            inBounds = false;
+        }
+        break;
+    default:
+        break;
+    }
+    if(level.get_levelMaze()[newHead.first][newHead.second] == '#'){
+        m_isAlive = false;
+        level.update_matrix(*this);
+        return;
+    }
+    if(!inBounds){
+        return;
+    }
+    (m_visitedLocations).push_back(m_headLocation);
+    m_headLocation = newHead;
+    bool ateFood = snake_ate_check(level);
+    m_body.push_back(newHead);
+    if (!ateFood) {
+        m_body.pop_front(); // Remove the tail only if not eating
+    }
+    level.update_matrix(*this);
 }
 
 void Snake::move_snake(){
