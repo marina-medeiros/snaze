@@ -88,6 +88,16 @@ void Snake::move_snake(Level &level){
     level.update_matrix(*this);
 }
 
-void Snake::move_snake(){
+void Snake::update_headFacing(int e){
+    switch (e)
+    {
+        case 5: m_headFacing = UP; break;
+        case 2: m_headFacing = DOWN; break;
+        case 1: m_headFacing = LEFT; break;
+        case 3: m_headFacing = RIGHT; break;
+    default:
+        break;
+    }
+}
 
 }
