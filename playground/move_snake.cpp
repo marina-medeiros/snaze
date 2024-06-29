@@ -60,7 +60,7 @@ void print_matrix(const std::vector<std::vector<char>>& matrix) {
 void print_matrix_tiny(const std::vector<std::vector<char>>& matrix) {
     int rows = static_cast<int>(matrix.size());
     int cols = static_cast<int>(matrix[0].size());
-    std::string square = "\u25FC";          // ◼
+    std::string square = "\u25AA";          // ◼
     std::string snakeBody = "\u25CF";       // ●
     for(int ii = 0; ii < rows; ii++){
         for(int jj = 0; jj < cols; jj++){
@@ -146,16 +146,16 @@ void update_matrix(std::vector<std::vector<char>>& matrix, Snake& snake){
 
     switch (snake.headFacing) {
     case UP:
-            matrix[snake.headLocation.first][snake.headLocation.second] = '^';
-        break;
-    case DOWN:
             matrix[snake.headLocation.first][snake.headLocation.second] = 'V';
         break;
+    case DOWN:
+            matrix[snake.headLocation.first][snake.headLocation.second] = '^';
+        break;
     case LEFT:
-            matrix[snake.headLocation.first][snake.headLocation.second] = '<';
+            matrix[snake.headLocation.first][snake.headLocation.second] = '>';
         break;
     case RIGHT:
-            matrix[snake.headLocation.first][snake.headLocation.second] = '>';
+            matrix[snake.headLocation.first][snake.headLocation.second] = '<';
         break;
     default:
         break;
