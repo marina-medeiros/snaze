@@ -250,6 +250,40 @@ void Controller::display_welcome() const {
 
 void Controller::display_running()const{
   show_level_options();
+  print_matrix();
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::cout << "\n \n \n";
+}
+
+void Controller::display_crashed() const {
+    std::cout<< "/n" << std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    std::cout<< "        OPS...LOOKS LIKE YOUR SNAKE CRASHED          "<<std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    show_enter();
+}
+void Controller::display_levelup() const {
+    std::cout<< "/n" << std::endl;
+    std::cout<< "----------------------------------------------------" << std::endl;
+    std::cout<< "        AMAZING! YOU LEVELED UP! R U READY?        "<<std::endl;
+    std::cout<< "----------------------------------------------------" << std::endl;
+    show_enter();
+}
+
+void Controller::display_lost() const {
+    std::cout<< "/n" << std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    std::cout<< "        SORRY, YOU LOST (JK HAHAHAHA LOSER)          "<<std::endl;
+    std::cout<< "-----------------------------------------------------" << std::endl;
+    show_enter();
+}
+
+void Controller::display_won() const {
+    std::cout<< "/n" << std::endl;
+    std::cout<< "---------------------------------------------------------" << std::endl;
+    std::cout<< " CONGRATULATIONS, YOU WON! YOU ARE THE REAL SNAKE MASTER "<<std::endl;
+    std::cout<< "---------------------------------------------------------" << std::endl;
+    show_enter();
 }
 
 void Controller::show_game_options() const {
@@ -261,9 +295,10 @@ void Controller::show_game_options() const {
 
 void Controller::show_level_options() const {
     std::string heart = "\u2665";           // ♥
+    int livesLeft = snake.get_lives();
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "Lives: ";
-    for (int ii = 0; ii<snakeLives; ii++) {std::cout<<heart<<" ";}
+    for (int ii = 0; ii< livesLeft; ii++) {std::cout<<heart<<" ";}
     std::cout<<" | Score: "/*<< snakeLives*/ <<" | Food eaten " << foodEaten<< " out of " <<totalFood <<std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
 }
