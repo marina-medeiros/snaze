@@ -195,6 +195,7 @@ switch (m_game_state) {
   }
 }
 
+
 void Controller::render() const{
     switch (m_game_state) {
     case game_state_e::STARTING:
@@ -203,7 +204,21 @@ void Controller::render() const{
       display_welcome();
       break;
     case game_state_e::RUNNING:
-      display_running();
+      if(!m_start){
+        display_running();
+      }
+      break;
+    case game_state_e::CRASHED:
+        display_crashed();
+      break;
+    case game_state_e::LEVELUP:
+        display_levelup();
+      break;
+    case game_state_e::LOST:
+        display_lost();
+      break;
+    case game_state_e::WON:
+        display_won();
       break;
     }
 }
