@@ -30,3 +30,36 @@ void Level::randomly_place_foood(Snake& snake){
 
     m_levelMaze[foodCoord.first][foodCoord.second] = '9';
 }
+
+void Level::update_matrix( Snake& snake){
+    // Clear previous snake positions
+    for (auto& row : m_levelMaze) {
+        std::replace(row.begin(), row.end(), 'O', ' ');
+        std::replace(row.begin(), row.end(), 'V', ' ');
+        std::replace(row.begin(), row.end(), '>', ' ');
+        std::replace(row.begin(), row.end(), '<', ' ');
+        std::replace(row.begin(), row.end(), '^', ' ');
+    }
+    
+    // Update matrix with new snake positions
+    for (const auto& coord : snake.get_body()) {
+        m_levelMaze[coord.first][coord.second] = 'O';
+    }
+
+    switch (snake.get_headFacing()) {
+    case Direction::UP:
+            m_levelMaze[snake.get_headLocation().first][snake.get_headLocation().second] = 'V';
+        break;
+    case Direction::DOWN:
+            m_levelMaze[snake.get_headLocation().first][snake.get_headLocation().second] = '^';
+        break;
+    case Direction::LEFT:
+            m_levelMaze[snake.get_headLocation().first][snake.get_headLocation().second] = '>';
+        break;
+    case Direction::RIGHT:
+            m_levelMaze[snake.get_headLocation().first][snake.get_headLocation().second] = '<';
+        break;
+    default:
+        break;
+    }
+}
