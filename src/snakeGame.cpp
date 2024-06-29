@@ -98,6 +98,17 @@ void Controller::process_events(){
       m_next = read_user_enter();
       break;
     case game_state_e::RUNNING:
+      break;
+    case game_state_e::CRASHED:
+      m_next = read_user_enter();
+      break;
+    case game_state_e::LEVELUP:
+      m_next = read_user_enter();
+      break;
+    case game_state_e::LOST:
+      m_next = read_user_enter();
+      break;
+    case game_state_e::WON:
       m_next = read_user_enter();
       break;
   }
