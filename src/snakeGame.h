@@ -3,6 +3,8 @@
 
 #include <string> // std::string
 #include <vector>
+#include <optional>
+
 #include "level.h"
 #include "player.h"
 #include "data.h"
@@ -12,36 +14,28 @@ private:
     enum class game_state_e : short {
     STARTING = 0,       //!< Beginning the game.
     WELCOME,            //!< Opening messasges.
-    THINKING,
     RUNNING,            //!< Playing the game.
-    EATING,
     CRASHED,
     LEVELUP,
     WON,
     LOST,
-    ENDING,             //!< Closing the game (final message).
+    //ENDING,             //!< Closing the game (final message).
   };
-
-    /*
-      enum class match_e : short {
-    ON = 1,      //!< Match still open and running.
-    PLAYER_WON,  //!< Match ended and player WON.
-    PLAYER_LOST, //!< Match ended and player LOST.
-    UNDEFINED,   //!< Undefined match status.
-    };
-    */ 
-
+    
     //=== Data members
     game_state_e m_game_state = game_state_e::STARTING; //!< Current game state.
     bool m_match_ended = false;   //!< Flag that indicates whether the current match has ended or not.
     bool m_next = false; 
+    bool m_start = true;
 
     //=== Game related members
     Player player;
-    //Snake snake
+    Snake snake;
+    //std::optional<Snake> snake;
     std::vector<Level> levels;
     std::string cfgFile;
     int numberOfLevels;
+    int currentLevel=0;
     int fps;
     int snakeLives;
     int totalFood;
