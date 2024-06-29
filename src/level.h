@@ -30,7 +30,7 @@ public:
     int get_levelNumber(){return m_levelNumber;}
     std::pair<int, int> get_spawnLocation(){return m_spawnLocation;}
     std::pair<int, int> get_foodLocation(){return m_foodLocation;}
-    std::vector<std::vector<char>> get_levelMaze(){return m_levelMaze;}
+    std::vector<std::vector<char>> get_levelMaze() const{return m_levelMaze;}
 
     void set_rows(int r){m_rows = r;}
     void set_cols(int c){m_cols = c;}
@@ -38,7 +38,8 @@ public:
     void add_spawnLocation(std::pair<int, int> spawnloc){m_spawnLocation = spawnloc;}
     void add_emptyLocation(std::pair<int, int> loc){m_emptyLocations.push_back(loc);}
 
-    void set_random_food_location();
+    void randomly_place_foood(Snake& snake);
+    void update_matrix(Snake& snake);
 
 
     // Data(const std::string& iniFile) : iniPath(iniFile) {read_ini(iniFile);}
