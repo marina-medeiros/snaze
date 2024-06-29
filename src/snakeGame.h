@@ -43,6 +43,7 @@ private:
 
 public:
     void read_config(std::string path);
+    void initializeSnake(int r, int c, Direction d);
 
     Controller(const Data& data) {
         // Initialize member variables using the Data object
@@ -89,6 +90,8 @@ private:
     void display_welcome() const;
     /// Show game screen
     void display_running()const;
+
+    void display_crashed()const;
     /// Show level up message
     void display_levelup()const;
     /// Show won message
@@ -101,6 +104,8 @@ private:
     void show_level_options() const;
     /// Show press enter
     void show_enter()const;
+
+    void print_matrix()const;
 
     /// Changes the state of the game.
     void change_state(game_state_e new_state);
