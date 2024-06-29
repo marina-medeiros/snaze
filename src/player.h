@@ -4,7 +4,8 @@
 #include <string> // std::string
 #include <vector>
 
-enum class Direction { Up, Down, Left, Right, None };
+#include "snake.h"
+
 class Player{
 private:
     int score = 0;
@@ -14,6 +15,7 @@ public:
     void set_score(int s){score = s;}
     Direction next_move();
     bool find_solution();
+    Direction randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix);
 };
 
 #endif
