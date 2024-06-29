@@ -7,8 +7,11 @@
 #include <limits>
 #include <vector>
 #include <cstdlib> // for exit()
+#include <thread>   // for sleep_for
+#include <chrono>   // for chrono::seconds
 
 #include "snakeGame.h"
+#include "snake.h"
 
 /**
  * @brief Clears the console screen.
@@ -61,6 +64,9 @@ void Controller::read_config(std::string path){
                 levelMatrix[ii][jj] = c;
                 if(c == level.get_emptySpace()){
                     level.add_emptyLocation(std::make_pair(ii, jj));
+                }
+                if(c == level.get_spawn()){
+                    level.add_spawnLocation(std::make_pair(ii, jj));
                 }
                 jj++;
             }
