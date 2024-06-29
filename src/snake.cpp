@@ -26,7 +26,13 @@ bool Snake::snake_ate_check(Level &level) {
     return false;
 }
 
-void Snake::update_snake_isAlive(){
+void Snake::update_snake_isAlive(std::vector<std::vector<char>>& matrix) {
+    int headRow = m_headLocation.first;
+    int headCol = m_headLocation.second;
+    if(matrix[headRow][headCol] == '#'){
+        m_isAlive = false;
+    }
+}
 
 }
 
