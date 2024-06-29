@@ -79,6 +79,14 @@ void Controller::read_config(std::string path){
 
     inputFile.close();
 }
+
+void Controller::initializeSnake(int r, int c, Direction d) {
+    // Inicializa a Snake com os parâmetros fornecidos
+    snake.initialize(r, c, d);
+    snake.set_lives(snakeLives);
+    snake.set_lenght(1);
+}
+
 /**
  * @brief Processes events based on the current game state.
  */
