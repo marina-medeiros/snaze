@@ -100,4 +100,9 @@ void Snake::update_headFacing(int e){
     }
 }
 
+void Snake::initialize(int r, int c, Direction d) {
+    // Inicialização da Snake
+    m_headLocation = std::make_pair(r, c);
+    m_headFacing = d;
+    m_body.push_back(m_headLocation);
 }
