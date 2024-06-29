@@ -304,5 +304,27 @@ void Controller::show_level_options() const {
 }
 
 void Controller::show_enter() const {
-    std::cout<< ">>> Press <ENTER> to start the game!" << std::endl;
+    std::cout<< ">>> Press <ENTER> to continue" << std::endl;
+}
+
+void Controller::print_matrix()const {
+    int rows = static_cast<int>(levels[currentLevel].get_levelMaze().size());
+    int cols = static_cast<int>(levels[currentLevel].get_levelMaze()[0].size());
+    std::string square = "\u25AA";          // ◼
+    std::string snakeBody = "\u25CF";       // ●
+    for(int ii = 0; ii < rows; ii++){
+        for(int jj = 0; jj < cols; jj++){
+            if(levels[currentLevel].get_levelMaze()[ii][jj] == ' '){
+                std::cout << " ";
+            }else if(levels[currentLevel].get_levelMaze()[ii][jj] == '#'){
+                    std::cout << square;
+            }else if(levels[currentLevel].get_levelMaze()[ii][jj] == 'O'){
+                    std::cout << snakeBody;
+            }else {
+                std::cout << levels[currentLevel].get_levelMaze()[ii][jj];
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }
