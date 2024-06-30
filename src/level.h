@@ -4,7 +4,7 @@
 #include <string> // std::string
 #include <vector>
 
-class Snake;
+#include "snake.h"
 
 class Level{
 private:
@@ -19,6 +19,7 @@ private:
     std::pair<int, int> m_spawnLocation;
     std::vector<std::vector<char>> m_levelMaze;
     std::vector<std::pair<int, int>> m_emptyLocations;
+    Snake snake;
 
 public:
     int get_rows(){return m_rows;}

@@ -7,6 +7,7 @@
 
 #include "level.h"
 #include "player.h"
+#include "snake.h"
 #include "data.h"
 
 class Controller{

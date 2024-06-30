@@ -327,7 +327,7 @@ void move_snake(Snake& snake, std::vector<std::vector<char>>& matrix){
     }
     if(matrix[newHead.first][newHead.second] == 'x'){
         snake.isAlive = false;
-        update_matrix(matrix, snake);
+        //update_matrix(matrix, snake);
         return;
     }
     if(!inBounds){
@@ -340,7 +340,6 @@ void move_snake(Snake& snake, std::vector<std::vector<char>>& matrix){
     if (!ateFood) {
         snake.body.pop_front(); // Remove the tail only if not eating
     }
-    update_matrix(matrix, snake);
 }
 
 void update_headFacing(Snake& snake, int e){
@@ -399,6 +398,7 @@ int main() {
         //update_headFacing(cascavel, entrada);
         cascavel.headFacing = newDir;
         move_snake(cascavel, maze);
+        update_matrix(maze, cascavel);
         clear_screen();
         print_matrix_tiny(maze);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

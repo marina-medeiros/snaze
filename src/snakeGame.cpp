@@ -11,7 +11,6 @@
 #include <chrono>   // for chrono::seconds
 
 #include "snakeGame.h"
-#include "snake.h"
 
 /**
  * @brief Clears the console screen.
@@ -35,8 +34,8 @@ void Controller::read_config(std::string path){
     std::ifstream inputFile(path);
 
     if(!file_exists(path)){
-    std::cout<< ">>> Level configuration file [" << path << "] doesn't exist, try again" <<std::endl;
-    exit(1);
+        std::cout<< ">>> Level configuration file [" << path << "] doesn't exist, try again" <<std::endl;
+        exit(1);
     }
 
     if (!inputFile.is_open()) { 
@@ -50,17 +49,35 @@ void Controller::read_config(std::string path){
 
         std::string line;
 
-        std::getline(inputFile, line);
+        //std::getline(inputFile, line);
 
+        if (!std::getline(inputFile, line)) {
+            std::cerr << "Error reading line from file!" << std::endl;
+            return;
+        }
         size_t spacePos = line.find(' ');
+
+        if (spacePos == std::string::npos) {
+            std::cerr << "Error parsing line: " << line << std::endl;
+            return;
+        }
 
         level.set_rows(stoi(line.substr(0, spacePos)));
         level.set_cols(stoi(line.substr(spacePos + 1)));
 
+        levelMatrix.resize(level.get_rows(), std::vector<char>(level.get_cols()));  // Initialize levelMatrix with rows and columns
+
         for(int ii = 0; ii < level.get_rows(); ++ii){
-            std::getline(inputFile, line);
+            if (!std::getline(inputFile, line)) {
+                std::cerr << "Error reading line from file!" << std::endl;
+                return;
+            }
             int jj = 0;
             for(char &c : line){
+                if (jj >= level.get_cols()) {
+                    std::cerr << "Error: line length exceeds expected number of columns" << std::endl;
+                    return;
+                }
                 levelMatrix[ii][jj] = c;
                 if(c == level.get_emptySpace()){
                     level.add_emptyLocation(std::make_pair(ii, jj));
@@ -73,6 +90,28 @@ void Controller::read_config(std::string path){
         }
 
         level.set_levelMaze(levelMatrix);
+
+        auto matrix = level.get_levelMaze();
+
+        int rows = static_cast<int>(matrix.size());
+        int cols = static_cast<int>(matrix[0].size());
+        std::string square = "\u25FC";          // ◼
+        std::string snakeBody = "\u25CF";       // ●
+        for(int ii = 0; ii < rows; ii++){
+                for(int jj = 0; jj < cols; jj++){
+                    if(matrix[ii][jj] == ' '){
+                        std::cout << " ";
+                    }else if(matrix[ii][jj] == 'x'){
+                        std::cout << square;
+                    }else if(matrix[ii][jj] == 'O'){
+                        std::cout << snakeBody;
+                    }else {
+                        std::cout << matrix[ii][jj];
+                    }
+                }
+                std::cout << std::endl;
+        }
+        std::cout << std::endl;
 
         levels.push_back(level);
     }
@@ -130,6 +169,7 @@ switch (m_game_state) {
 
     case game_state_e::RUNNING:
         if (m_start) {
+            //initializeSnake(levels[currentLevel].get_spawnLocation().first, levels[currentLevel].get_spawnLocation().second, DOWN); //SEGMENTATION FAULT
             snake.initialize(levels[currentLevel].get_spawnLocation().first, levels[currentLevel].get_spawnLocation().second, DOWN);
             levels[currentLevel].update_matrix(snake);
             levels[currentLevel].randomly_place_foood(snake);
@@ -141,10 +181,13 @@ switch (m_game_state) {
             Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze());
             snake.set_headFacing(newDir);
             snake.move_snake(levels[currentLevel]);
+            (levels[currentLevel]).update_matrix(snake);
             clear_screen();
 
             if (!snake.get_isAlive()) {
-              snake.set_lives(snake.get_lives() - 1);
+            //  snake.set_lives(snake.get_lives() - 1);
+            //   std::cout << "pppppp" << snakeLives;
+            //   snakeLives--;
               if((snake.get_lives() != 0)){
                 change_state(game_state_e::CRASHED);
               }else{
@@ -152,7 +195,7 @@ switch (m_game_state) {
               }
             }
             if(foodEaten == totalFood){
-              if(currentLevel == levels.size()){
+              if(currentLevel == static_cast<int>(levels.size())){
                 change_state(game_state_e::WON);
               }else{
                 change_state(game_state_e::LEVELUP);
@@ -164,6 +207,7 @@ switch (m_game_state) {
 
     case game_state_e::CRASHED:
         if (m_next) {
+            snake.reset(levels[currentLevel].get_spawnLocation());
             //resetar tamanho da cobra
             change_state(game_state_e::RUNNING);
             //spawnar a cobra dnv 
@@ -174,6 +218,7 @@ switch (m_game_state) {
     case game_state_e::LEVELUP:
         if (m_next) {
             currentLevel++;
+            snake.reset(levels[currentLevel].get_spawnLocation());
             //resetar o tamanho da cobra
             change_state(game_state_e::RUNNING);
             m_start = true;
@@ -252,18 +297,18 @@ void Controller::display_running()const{
   show_level_options();
   print_matrix();
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::cout << "\n \n \n";
+        std::cout << std::endl << std::endl << std::endl;
 }
 
 void Controller::display_crashed() const {
-    std::cout<< "/n" << std::endl;
+    std::cout << std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "        OPS...LOOKS LIKE YOUR SNAKE CRASHED          "<<std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
     show_enter();
 }
 void Controller::display_levelup() const {
-    std::cout<< "/n" << std::endl;
+    std::cout << std::endl;
     std::cout<< "----------------------------------------------------" << std::endl;
     std::cout<< "        AMAZING! YOU LEVELED UP! R U READY?        "<<std::endl;
     std::cout<< "----------------------------------------------------" << std::endl;
@@ -271,7 +316,7 @@ void Controller::display_levelup() const {
 }
 
 void Controller::display_lost() const {
-    std::cout<< "/n" << std::endl;
+    std::cout << std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "        SORRY, YOU LOST (JK HAHAHAHA LOSER)          "<<std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
@@ -279,7 +324,7 @@ void Controller::display_lost() const {
 }
 
 void Controller::display_won() const {
-    std::cout<< "/n" << std::endl;
+    std::cout << std::endl;
     std::cout<< "---------------------------------------------------------" << std::endl;
     std::cout<< " CONGRATULATIONS, YOU WON! YOU ARE THE REAL SNAKE MASTER "<<std::endl;
     std::cout<< "---------------------------------------------------------" << std::endl;
@@ -295,10 +340,11 @@ void Controller::show_game_options() const {
 
 void Controller::show_level_options() const {
     std::string heart = "\u2665";           // ♥
-    int livesLeft = snake.get_lives();
+    //int livesLeft = snake.get_lives();
+    //int livesLeft = snakeLives;
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "Lives: ";
-    for (int ii = 0; ii< livesLeft; ii++) {std::cout<<heart<<" ";}
+    for (int ii = 0; ii< snakeLives; ii++) {std::cout<<heart<<" ";}
     std::cout<<" | Score: "/*<< snakeLives*/ <<" | Food eaten " << foodEaten<< " out of " <<totalFood <<std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
 }

@@ -20,6 +20,7 @@ bool Snake::snake_ate_check(Level &level) {
     int headCol = m_headLocation.second;
     if(level.get_levelMaze()[headRow][headCol] == '9') {
         m_size++;
+        m_foodEaten++;
         level.randomly_place_foood(*this);
         return true;
     }
@@ -72,7 +73,7 @@ void Snake::move_snake(Level &level){
     }
     if(level.get_levelMaze()[newHead.first][newHead.second] == '#'){
         m_isAlive = false;
-        level.update_matrix(*this);
+        //level.update_matrix(*this);
         return;
     }
     if(!inBounds){
@@ -85,7 +86,7 @@ void Snake::move_snake(Level &level){
     if (!ateFood) {
         m_body.pop_front(); // Remove the tail only if not eating
     }
-    level.update_matrix(*this);
+    //level.update_matrix(*this);
 }
 
 void Snake::update_headFacing(int e){
