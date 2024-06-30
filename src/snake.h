@@ -26,11 +26,11 @@ public:
 
     void initialize(int r, int c, Direction d); // Função de inicialização
 
-    // Snake(int r, int c, Direction d)
-    //     : m_headLocation(r, c), m_headFacing(d) {
-    //     // Initial body can be empty or contain the head location
-    //     m_body.push_back(m_headLocation);
-    // }
+    Snake(int r, int c, Direction d)
+        : m_headLocation(r, c), m_headFacing(d) {
+        // Initial body can be empty or contain the head location
+        m_body.push_back(m_headLocation);
+    }
     int get_lives()const{return m_lives;}
     int get_foodEaten()const{return m_foodEaten;}
     int get_size(){return m_size;}

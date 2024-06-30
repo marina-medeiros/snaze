@@ -91,28 +91,6 @@ void Controller::read_config(std::string path){
 
         level.set_levelMaze(levelMatrix);
 
-        auto matrix = level.get_levelMaze();
-
-        int rows = static_cast<int>(matrix.size());
-        int cols = static_cast<int>(matrix[0].size());
-        std::string square = "\u25FC";          // ◼
-        std::string snakeBody = "\u25CF";       // ●
-        for(int ii = 0; ii < rows; ii++){
-                for(int jj = 0; jj < cols; jj++){
-                    if(matrix[ii][jj] == ' '){
-                        std::cout << " ";
-                    }else if(matrix[ii][jj] == 'x'){
-                        std::cout << square;
-                    }else if(matrix[ii][jj] == 'O'){
-                        std::cout << snakeBody;
-                    }else {
-                        std::cout << matrix[ii][jj];
-                    }
-                }
-                std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
         levels.push_back(level);
     }
 
@@ -178,7 +156,7 @@ switch (m_game_state) {
 
         {
             // Bloco adicional para controlar o escopo de novas variáveis locais
-            Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze());
+            Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
             snake.set_headFacing(newDir);
             snake.move_snake(levels[currentLevel]);
             (levels[currentLevel]).update_matrix(snake);

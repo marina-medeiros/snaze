@@ -32,6 +32,7 @@ public:
     std::pair<int, int> get_spawnLocation(){return m_spawnLocation;}
     std::pair<int, int> get_foodLocation(){return m_foodLocation;}
     std::vector<std::vector<char>> get_levelMaze() const{return m_levelMaze;}
+    std::vector<std::pair<int, int>> get_emptyLocations(){return m_emptyLocations;}
 
     void set_rows(int r){m_rows = r;}
     void set_cols(int c){m_cols = c;}

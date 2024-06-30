@@ -7,7 +7,7 @@
 
 #include "player.h"
 
-Direction Player::randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix) {
+Direction Player::randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations) {
     std::pair<int, int> currentHead = snake.get_headLocation();
     Direction dir = snake.get_headFacing();
     std::vector<Direction> possibleDirections;
@@ -16,6 +16,10 @@ Direction Player::randomly_generate_direction(Snake& snake, std::vector<std::vec
     auto isValidMove = [&](int x, int y) {
         return matrix[x][y] == ' ' || matrix[x][y] == '9';
     };
+
+    if((snake.get_visitedLocations()).size() == emptyLocations.size()){
+        (snake.get_visitedLocations()).clear(); 
+    }
 
     auto isVisited = [&](int x, int y) {
         return std::find(snake.get_visitedLocations().begin(), snake.get_visitedLocations().end(), std::make_pair(x, y)) != snake.get_visitedLocations().end();

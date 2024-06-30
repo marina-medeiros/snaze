@@ -15,7 +15,7 @@ public:
     void set_score(int s){score = s;}
     Direction next_move();
     bool find_solution();
-    Direction randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix);
+    Direction randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations);
 };
 
 #endif
