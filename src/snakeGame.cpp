@@ -177,9 +177,8 @@ switch (m_game_state) {
     case game_state_e::CRASHED:
         if (m_next) {
             snake.reset(levels[currentLevel].get_spawnLocation());
-            //resetar tamanho da cobra
+            snake.set_lenght(1);
             change_state(game_state_e::RUNNING);
-            //spawnar a cobra dnv 
             m_next = false; // Resetar m_next após transição de estado
         }
         break;
@@ -188,7 +187,7 @@ switch (m_game_state) {
         if (m_next) {
             currentLevel++;
             snake.reset(levels[currentLevel].get_spawnLocation());
-            //resetar o tamanho da cobra
+            snake.set_lenght(1);
             change_state(game_state_e::RUNNING);
             m_start = true;
             m_next = false;
