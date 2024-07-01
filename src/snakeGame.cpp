@@ -4,7 +4,6 @@
 #include <utility>
 #include <iostream>
 #include <string>
-#include <limits>
 #include <vector>
 #include <cstdlib> // for exit()
 #include <thread>   // for sleep_for
@@ -97,12 +96,6 @@ void Controller::read_config(std::string path){
     inputFile.close();
 }
 
-void Controller::initializeSnake(int r, int c, Direction d) {
-    // Inicializa a Snake com os parâmetros fornecidos
-    snake.initialize(r, c, d);
-    snake.set_lives(snakeLives);
-    snake.set_lenght(1);
-}
 
 /**
  * @brief Processes events based on the current game state.
@@ -140,7 +133,6 @@ switch (m_game_state) {
     case game_state_e::WELCOME:
         if (m_next) {
             change_state(game_state_e::RUNNING);
-            currentLevel++;
             m_next = false; // Resetar m_next após transição de estado
         }
         break;
@@ -161,18 +153,17 @@ switch (m_game_state) {
             snake.move_snake(levels[currentLevel]);
             (levels[currentLevel]).update_matrix(snake);
             clear_screen();
+            player.set_score(player.get_score() + 1);
 
             if (!snake.get_isAlive()) {
-            //  snake.set_lives(snake.get_lives() - 1);
-            //   std::cout << "pppppp" << snakeLives;
-            //   snakeLives--;
-              if((snake.get_lives() != 0)){
+                snakeLives--;
+              if((snakeLives != 0)){
                 change_state(game_state_e::CRASHED);
               }else{
                 change_state(game_state_e::LOST);
               }
             }
-            if(foodEaten == totalFood){
+            if(snake.get_foodEaten() >= totalFood){
               if(currentLevel == static_cast<int>(levels.size())){
                 change_state(game_state_e::WON);
               }else{
@@ -318,12 +309,10 @@ void Controller::show_game_options() const {
 
 void Controller::show_level_options() const {
     std::string heart = "\u2665";           // ♥
-    //int livesLeft = snake.get_lives();
-    //int livesLeft = snakeLives;
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "Lives: ";
     for (int ii = 0; ii< snakeLives; ii++) {std::cout<<heart<<" ";}
-    std::cout<<" | Score: "/*<< snakeLives*/ <<" | Food eaten " << foodEaten<< " out of " <<totalFood <<std::endl;
+    std::cout<<" | Score: " << player.get_score() << " | Food eaten " << snake.get_foodEaten() << " out of " << totalFood <<std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
 }
 
