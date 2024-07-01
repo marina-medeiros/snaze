@@ -3,7 +3,6 @@
 
 #include <string> // std::string
 #include <vector>
-#include <optional>
 
 #include "level.h"
 #include "player.h"
@@ -20,19 +19,16 @@ private:
     LEVELUP,
     WON,
     LOST,
-    //ENDING,             //!< Closing the game (final message).
   };
     
     //=== Data members
     game_state_e m_game_state = game_state_e::STARTING; //!< Current game state.
-    bool m_match_ended = false;   //!< Flag that indicates whether the current match has ended or not.
     bool m_next = false; 
     bool m_start = true;
 
     //=== Game related members
     Player player;
     Snake snake;
-    //std::optional<Snake> snake;
     std::vector<Level> levels;
     std::string cfgFile;
     int numberOfLevels;
@@ -40,7 +36,6 @@ private:
     int fps;
     int snakeLives;
     int totalFood;
-    int foodEaten = 0;
 
 public:
     void read_config(std::string path);
