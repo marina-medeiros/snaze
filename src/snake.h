@@ -1,7 +1,6 @@
 #ifndef _SNAKE_H_
 #define _SNAKE_H_
 
-#include <string> // std::string
 #include <vector>
 #include <deque>
 
@@ -11,7 +10,6 @@ class Level;
 enum Direction { UP, DOWN, LEFT, RIGHT };
 class Snake{
 private:
-    int m_lives = 0;
     int m_foodEaten = 0;
     int m_size = 1;
     bool m_isAlive = true;
@@ -31,7 +29,6 @@ public:
         // Initial body can be empty or contain the head location
         m_body.push_back(m_headLocation);
     }
-    int get_lives()const{return m_lives;}
     int get_foodEaten()const{return m_foodEaten;}
     int get_size(){return m_size;}
     bool get_isAlive(){return m_isAlive;}
@@ -40,7 +37,6 @@ public:
     Direction get_headFacing(){return m_headFacing;}
     std::deque<std::pair<int, int>> get_body(){return m_body;}
 
-    void set_lives(int l){m_lives = l;}
     void set_foodEaten(int l){m_foodEaten = l;}
     void set_lenght(int l){m_size = l;}
     void set_headFacing(Direction d){m_headFacing = d;}
