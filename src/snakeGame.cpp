@@ -219,6 +219,8 @@ void Controller::render() const{
     case game_state_e::RUNNING:
       if(!m_start){
         display_running();
+        int frame_duration_ms = 1000 / fps;
+        std::this_thread::sleep_for(std::chrono::milliseconds(frame_duration_ms));
       }
       break;
     case game_state_e::CRASHED:
@@ -323,7 +325,8 @@ void Controller::print_matrix()const {
     int rows = static_cast<int>(levels[currentLevel].get_levelMaze().size());
     int cols = static_cast<int>(levels[currentLevel].get_levelMaze()[0].size());
     std::string square = "\u25AA";          // ◼
-    std::string snakeBody = "\u25CF";       // ●
+    std::string snakeBody = "\u2022";       // ●
+    std::string fruit = "\u2736"; // ✶
     for(int ii = 0; ii < rows; ii++){
         for(int jj = 0; jj < cols; jj++){
             if(levels[currentLevel].get_levelMaze()[ii][jj] == ' '){
@@ -332,11 +335,12 @@ void Controller::print_matrix()const {
                     std::cout << square;
             }else if(levels[currentLevel].get_levelMaze()[ii][jj] == 'O'){
                     std::cout << snakeBody;
+            }else if(levels[currentLevel].get_levelMaze()[ii][jj] == '9'){
+                    std::cout << fruit;
             }else {
                 std::cout << levels[currentLevel].get_levelMaze()[ii][jj];
             }
         }
         std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
