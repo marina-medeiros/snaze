@@ -11,7 +11,7 @@ private:
     int score = 0;
 
 public:
-    int get_score(){return score;}
+    int get_score()const{return score;}
     void set_score(int s){score = s;}
     Direction next_move();
     bool find_solution();
