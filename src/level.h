@@ -1,7 +1,6 @@
 #ifndef _LEVEL_H_
 #define _LEVEL_H_
 
-#include <string> // std::string
 #include <vector>
 
 #include "snake.h"
@@ -10,7 +9,6 @@ class Level{
 private:
     int m_rows;
     int m_cols;
-    int m_levelNumber;
     char m_wall = '#';
     char m_invisibleWall = '.';
     char m_spawn = '&';
@@ -28,7 +26,6 @@ public:
     char get_invisibleWall(){return m_invisibleWall;}
     char get_spawn(){return m_spawn;}
     char get_emptySpace(){return m_emptySpace;}
-    int get_levelNumber(){return m_levelNumber;}
     std::pair<int, int> get_spawnLocation(){return m_spawnLocation;}
     std::pair<int, int> get_foodLocation(){return m_foodLocation;}
     std::vector<std::vector<char>> get_levelMaze() const{return m_levelMaze;}
@@ -43,12 +40,6 @@ public:
     void randomly_place_foood(Snake& snake);
     void update_matrix(Snake& snake);
 
-
-    // Data(const std::string& iniFile) : iniPath(iniFile) {read_ini(iniFile);}
-    // void read_ini(std::string iniFile);// Getter for variablesAndValues
-    // const std::unordered_map<std::string, std::string>& get_variablesAndValues() const {
-    //     return variablesAndValues;
-    // }
 };
 
 #endif
