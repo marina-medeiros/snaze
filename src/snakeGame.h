@@ -32,7 +32,7 @@ private:
     std::vector<Level> levels;
     std::string cfgFile;
     int numberOfLevels;
-    int currentLevel=0;
+    int currentLevel= 0;
     int fps;
     int snakeLives;
     int totalFood;
@@ -50,7 +50,6 @@ public:
             if(cfgFile.length() >=2 && cfgFile.front() == '"'  && cfgFile.back() == '"'){
                 cfgFile = cfgFile.substr(1, cfgFile.length() - 2);
             }
-            read_config(cfgFile);
         }
         if (config.find("levels") != config.end()) {
             numberOfLevels = std::stoi(config.at("levels"));
@@ -64,6 +63,7 @@ public:
         if (config.find("food") != config.end()) {
             totalFood =  std::stoi(config.at("food"));
         }
+        read_config(cfgFile);
     }
 
     //=== Common methods for the Game Loop design pattern.

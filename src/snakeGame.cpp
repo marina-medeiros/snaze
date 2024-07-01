@@ -163,8 +163,8 @@ switch (m_game_state) {
                 change_state(game_state_e::LOST);
               }
             }
-            if(snake.get_foodEaten() >= totalFood){
-              if(currentLevel == static_cast<int>(levels.size())){
+            if(snake.get_foodEaten() == totalFood){
+              if(currentLevel == (static_cast<int>(levels.size())-1)){
                 change_state(game_state_e::WON);
               }else{
                 change_state(game_state_e::LEVELUP);
@@ -188,9 +188,9 @@ switch (m_game_state) {
             currentLevel++;
             snake.reset(levels[currentLevel].get_spawnLocation());
             snake.set_lenght(1);
-            change_state(game_state_e::RUNNING);
             m_start = true;
             m_next = false;
+            change_state(game_state_e::RUNNING);
         }
         break;
 
@@ -230,10 +230,10 @@ void Controller::render() const{
         display_levelup();
       break;
     case game_state_e::LOST:
-        display_lost();
+        if(!game_over){display_lost();}
       break;
     case game_state_e::WON:
-        display_won();
+        if(!game_over){display_won();}
       break;
     }
 }
