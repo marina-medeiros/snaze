@@ -177,7 +177,6 @@ switch (m_game_state) {
     case game_state_e::CRASHED:
         if (m_next) {
             snake.reset(levels[currentLevel].get_spawnLocation());
-            snake.set_lenght(1);
             change_state(game_state_e::RUNNING);
             m_next = false; // Resetar m_next após transição de estado
         }
@@ -185,9 +184,8 @@ switch (m_game_state) {
 
     case game_state_e::LEVELUP:
         if (m_next) {
-            currentLevel++;
+            currentLevel++;    
             snake.reset(levels[currentLevel].get_spawnLocation());
-            snake.set_lenght(1);
             m_start = true;
             m_next = false;
             change_state(game_state_e::RUNNING);
