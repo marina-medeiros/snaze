@@ -24,10 +24,14 @@ public:
 
     void initialize(int r, int c, Direction d) {
         // Inicialização da Snake
+        m_body.clear();  // Clear the body
         m_headLocation = std::make_pair(r, c);
-        m_headFacing = d;
         m_body.push_back(m_headLocation);
+        m_size = 1;  // Reset size to 1
+        m_headFacing = d;
+        m_visitedLocations.clear();  // Clear visited locations
         m_visitedLocations.push_back(m_headLocation);  // Add the head to visited locations
+        m_isAlive = true;  // Reset isAlive status
     }
 
     Snake(int r, int c, Direction d)
@@ -49,7 +53,7 @@ public:
     void reset(std::pair<int, int> spawn) {
         m_body.clear();  // Clear the body
         m_headLocation = spawn;  // Set the new head location
-        //m_body.push_back(m_headLocation);  // Add the head to the body
+        m_body.push_back(m_headLocation);  // Add the head to the body
         m_size = 1;  // Reset size to 1
         m_visitedLocations.clear();  // Clear visited locations
         m_visitedLocations.push_back(m_headLocation);  // Add the head to visited locations
