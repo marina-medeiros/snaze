@@ -9,6 +9,13 @@
 #include "level.h"
 #include "snake.h"
 
+/**
+ * @brief Randomly places food on the level.
+ * 
+ * The function finds all empty coordinates in the maze that are not part of the snake's body, and places food at a random available coordinate.
+ * 
+ * @param snake The snake object whose body coordinates are to be avoided.
+ */
 void Level::randomly_place_foood(Snake& snake){
     int rows = static_cast<int>(m_levelMaze.size());
     int cols = static_cast<int>(m_levelMaze[0].size());
@@ -31,6 +38,13 @@ void Level::randomly_place_foood(Snake& snake){
     m_levelMaze[foodCoord.first][foodCoord.second] = '9';
 }
 
+/**
+ * @brief Updates the level matrix with the current positions of the snake.
+ * 
+ * The function clears previous snake positions from the matrix and updates it with the new positions based on the current state of the snake.
+ * 
+ * @param snake The snake object whose positions are to be updated in the matrix.
+ */
 void Level::update_matrix( Snake& snake){
     // Clear previous snake positions
     for (auto& row : m_levelMaze) {

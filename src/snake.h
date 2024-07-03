@@ -22,7 +22,13 @@ public:
     // Constructor
     Snake()= default; // Construtor vazio
 
-    void initialize(int r, int c, Direction d); // Função de inicialização
+    void initialize(int r, int c, Direction d) {
+        // Inicialização da Snake
+        m_headLocation = std::make_pair(r, c);
+        m_headFacing = d;
+        m_body.push_back(m_headLocation);
+        m_visitedLocations.push_back(m_headLocation);  // Add the head to visited locations
+    }
 
     Snake(int r, int c, Direction d)
         : m_headLocation(r, c), m_headFacing(d) {
@@ -43,7 +49,7 @@ public:
     void reset(std::pair<int, int> spawn) {
         m_body.clear();  // Clear the body
         m_headLocation = spawn;  // Set the new head location
-        m_body.push_back(m_headLocation);  // Add the head to the body
+        //m_body.push_back(m_headLocation);  // Add the head to the body
         m_size = 1;  // Reset size to 1
         m_visitedLocations.clear();  // Clear visited locations
         m_visitedLocations.push_back(m_headLocation);  // Add the head to visited locations
@@ -52,7 +58,6 @@ public:
     }
 
     bool check_coord_in_body(std::pair<int, int> coord);
-    void update_snake_isAlive(std::vector<std::vector<char>>& matrix);
     bool snake_ate_check(Level &level);
     void move_snake(Level &level);
     void update_headFacing(int e);

@@ -150,7 +150,11 @@ switch (m_game_state) {
             // Bloco adicional para controlar o escopo de novas variáveis locais
             Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
             snake.set_headFacing(newDir);
+            int foodEaten = snake.get_foodEaten();
             snake.move_snake(levels[currentLevel]);
+            if(foodEaten < snake.get_foodEaten()){
+                player.set_score(player.get_score() + 10);
+            }
             (levels[currentLevel]).update_matrix(snake);
             clear_screen();
             player.set_score(player.get_score() + 1);
@@ -167,6 +171,7 @@ switch (m_game_state) {
               if(currentLevel == (static_cast<int>(levels.size())-1)){
                 change_state(game_state_e::WON);
               }else{
+                snake.reset((levels[currentLevel]).get_spawnLocation());
                 change_state(game_state_e::LEVELUP);
               }
             }

@@ -6,6 +6,16 @@
 
 #include "player.h"
 
+/**
+ * @brief Randomly generates a new direction for the snake to move in.
+ * 
+ * The function prioritizes unvisited positions. If all adjacent positions are visited, it chooses from the available visited positions.
+ * 
+ * @param snake The snake object whose direction is to be determined.
+ * @param matrix The current level matrix containing walls, empty spaces, and food.
+ * @param emptyLocations A list of all empty locations in the level.
+ * @return The new direction for the snake to move in.
+ */
 Direction Player::randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations) {
     std::pair<int, int> currentHead = snake.get_headLocation();
     Direction dir = snake.get_headFacing();

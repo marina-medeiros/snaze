@@ -4,6 +4,12 @@
 #include "snake.h"
 #include "level.h"
 
+/**
+ * @brief Checks if a given coordinate is part of the snake's body.
+ * 
+ * @param coord The coordinate to check.
+ * @return true if the coordinate is part of the snake's body, false otherwise.
+ */
 bool Snake::check_coord_in_body(std::pair<int, int> coord){
     for(auto& cell : m_body){
         if(cell.first == coord.first && cell.second == coord.second){
@@ -13,7 +19,12 @@ bool Snake::check_coord_in_body(std::pair<int, int> coord){
     return false;
 }
 
-//precisam do mapa:
+/**
+ * @brief Checks if the snake has eaten food.
+ * 
+ * @param level The current level containing the maze and food.
+ * @return true if the snake has eaten food, false otherwise.
+ */
 bool Snake::snake_ate_check(Level &level) {
     int headRow = m_headLocation.first;
     int headCol = m_headLocation.second;
@@ -26,14 +37,11 @@ bool Snake::snake_ate_check(Level &level) {
     return false;
 }
 
-void Snake::update_snake_isAlive(std::vector<std::vector<char>>& matrix) {
-    int headRow = m_headLocation.first;
-    int headCol = m_headLocation.second;
-    if(matrix[headRow][headCol] == '#'){
-        m_isAlive = false;
-    }
-}
-
+/**
+ * @brief Moves the snake in the current facing direction.
+ * 
+ * @param level The current level containing the maze.
+ */
 void Snake::move_snake(Level &level){
     std::pair<int, int> newHead = m_headLocation;
     Direction dir = m_headFacing;
@@ -70,7 +78,7 @@ void Snake::move_snake(Level &level){
     default:
         break;
     }
-    if(level.get_levelMaze()[newHead.first][newHead.second] == '#'){
+    if(level.get_levelMaze()[newHead.first][newHead.second] != ' ' && level.get_levelMaze()[newHead.first][newHead.second] != '9'){
         m_isAlive = false;
         //level.update_matrix(*this);
         return;
@@ -88,6 +96,11 @@ void Snake::move_snake(Level &level){
     //level.update_matrix(*this);
 }
 
+/**
+ * @brief Updates the direction the snake is facing.
+ * 
+ * @param e The new direction to face (5 for UP, 2 for DOWN, 1 for LEFT, 3 for RIGHT).
+ */
 void Snake::update_headFacing(int e){
     switch (e)
     {
@@ -98,11 +111,4 @@ void Snake::update_headFacing(int e){
     default:
         break;
     }
-}
-
-void Snake::initialize(int r, int c, Direction d) {
-    // Inicialização da Snake
-    m_headLocation = std::make_pair(r, c);
-    m_headFacing = d;
-    m_body.push_back(m_headLocation);
 }
