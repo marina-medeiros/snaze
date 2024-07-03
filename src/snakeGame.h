@@ -38,8 +38,9 @@ private:
     int totalFood;
 
 public:
+
+    //reads the .dat file
     void read_config(std::string path);
-    void initializeSnake(int r, int c, Direction d);
 
     Controller(const Data& data) {
         // Initialize member variables using the Data object
@@ -101,6 +102,7 @@ private:
     /// Show press enter
     void show_enter()const;
 
+    /// Show maze
     void print_matrix()const;
 
     /// Changes the state of the game.

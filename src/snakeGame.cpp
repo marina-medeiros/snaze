@@ -23,11 +23,26 @@ void clear_screen() {
     #endif
 }
 
+/*!
+* Checks if a file exists.
+*
+* @param target The path of the file to check.
+*
+* @return True if the directory file, false otherwise.
+*/
 bool file_exists(const std::string &str) {
     std::ifstream fs{str};
     return fs.is_open();
 }
 
+/**
+ * @brief Reads and loads the level configuration from a file.
+ * 
+ * This function reads a level configuration file specified by the given path and 
+ * loads the configuration of each level into a vector of Level objects.
+ * 
+ * @param path Path to the level configuration file.
+ */
 void Controller::read_config(std::string path){
     path = "../" + path;
     std::ifstream inputFile(path);
@@ -124,6 +139,9 @@ void Controller::process_events(){
   }
 }
 
+/**
+ * @brief Updates the game state.
+ */
 void Controller::update() {
 switch (m_game_state) {
     case game_state_e::STARTING:
@@ -211,7 +229,9 @@ switch (m_game_state) {
   }
 }
 
-
+/**
+ * @brief Renders the current game state to the console.
+ */
 void Controller::render() const{
     switch (m_game_state) {
     case game_state_e::STARTING:
@@ -252,6 +272,10 @@ bool Controller::read_user_enter() const {
     return c == '\n';
 }
 
+/**
+ * @brief Changes the current game state.
+ * @param new_state The new game state to switch to.
+ */
 void Controller::change_state(game_state_e new_state) {
   if(!(m_game_state == game_state_e::RUNNING)){
   clear_screen();
@@ -259,6 +283,12 @@ void Controller::change_state(game_state_e new_state) {
   m_game_state = new_state;
 }
 
+/**
+ * @brief Displays the welcome message for the game.
+ * 
+ * This function outputs a welcome message to the console and shows the game options
+ * and the prompt to enter the game.
+ */
 void Controller::display_welcome() const {
     std::cout<< "--->  Welcome to the classic snake game  <---" << std::endl;
     std::cout<< "       -copyright DIMAp/UFRN 2017-2024-      " << std::endl;
@@ -266,6 +296,12 @@ void Controller::display_welcome() const {
     show_enter();
 }
 
+/**
+ * @brief Displays the running state of the game.
+ * 
+ * This function shows the current level options, prints the game matrix, and 
+ * pauses execution for a brief moment to create a visual effect.
+ */
 void Controller::display_running()const{
   show_level_options();
   print_matrix();
@@ -273,6 +309,11 @@ void Controller::display_running()const{
         std::cout << std::endl << std::endl << std::endl;
 }
 
+/**
+ * @brief Displays a message when the snake crashes.
+ * 
+ * This function outputs a crash message to the console and shows the prompt to enter the game.
+ */
 void Controller::display_crashed() const {
     std::cout << std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
@@ -280,6 +321,12 @@ void Controller::display_crashed() const {
     std::cout<< "-----------------------------------------------------" << std::endl;
     show_enter();
 }
+
+/**
+ * @brief Displays a message when the player levels up.
+ * 
+ * This function outputs a level-up message to the console and shows the prompt to enter the next level.
+ */
 void Controller::display_levelup() const {
     std::cout << std::endl;
     std::cout<< "----------------------------------------------------" << std::endl;
@@ -288,6 +335,11 @@ void Controller::display_levelup() const {
     show_enter();
 }
 
+/**
+ * @brief Displays a message when the player loses the game.
+ * 
+ * This function outputs a losing message to the console and shows the prompt to hit enter.
+ */
 void Controller::display_lost() const {
     std::cout << std::endl;
     std::cout<< "-----------------------------------------------------" << std::endl;
@@ -296,6 +348,11 @@ void Controller::display_lost() const {
     show_enter();
 }
 
+/**
+ * @brief Displays a message when the player wins the game.
+ * 
+ * This function outputs a winning message to the console and shows the prompt to enter the game.
+ */
 void Controller::display_won() const {
     std::cout << std::endl;
     std::cout<< "---------------------------------------------------------" << std::endl;
@@ -304,6 +361,11 @@ void Controller::display_won() const {
     show_enter();
 }
 
+/**
+ * @brief Displays the game options at the start.
+ * 
+ * This function outputs the number of levels, snake lives, and apples to eat, along with a message encouraging the player.
+ */
 void Controller::show_game_options() const {
     std::cout<< "-----------------------------------------------------" << std::endl;
     std::cout<< "Levels loaded: "<< numberOfLevels <<" | Snake lives: "<< snakeLives <<" | Apples to eat: " << totalFood <<std::endl;
@@ -311,6 +373,12 @@ void Controller::show_game_options() const {
     std::cout<< "-----------------------------------------------------" << std::endl;
 }
 
+/**
+ * @brief Displays the current level options including lives, score, and food eaten.
+ * 
+ * This function outputs the current number of lives (represented as hearts), the player's score,
+ * and the amount of food eaten by the snake out of the total food required.
+ */
 void Controller::show_level_options() const {
     std::string heart = "\u2665";           // ♥
     std::cout<< "-----------------------------------------------------" << std::endl;
@@ -320,10 +388,21 @@ void Controller::show_level_options() const {
     std::cout<< "-----------------------------------------------------" << std::endl;
 }
 
+/**
+ * @brief Displays a prompt for the user to press Enter to continue.
+ * 
+ * This function outputs a message prompting the user to press the Enter key to proceed.
+ */
 void Controller::show_enter() const {
     std::cout<< ">>> Press <ENTER> to continue" << std::endl;
 }
 
+/**
+ * @brief Prints the current level's matrix to the console.
+ * 
+ * This function displays the current level's maze matrix, using special characters
+ * to represent different elements of the game, such as the walls, snake body, and fruit.
+ */
 void Controller::print_matrix()const {
     int rows = static_cast<int>(levels[currentLevel].get_levelMaze().size());
     int cols = static_cast<int>(levels[currentLevel].get_levelMaze()[0].size());
