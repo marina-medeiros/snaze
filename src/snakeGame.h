@@ -76,7 +76,7 @@ public:
     /// Renders the game to the user.
     void render() const;
 
-    /// Returns true when the user wants to quit the game.
+    /// true when the game is over.
     bool game_over;
 
 private:

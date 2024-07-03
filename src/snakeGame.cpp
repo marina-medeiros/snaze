@@ -99,10 +99,10 @@ void Controller::read_config(std::string path){
                 else if(c == level.get_spawn()){
                     level.add_spawnLocation(std::make_pair(ii, jj));
                 }
-                // else if((c != level.get_invisibleWall()) && (c!= level.get_wall())){
-                //     std::cerr << "Error: the puzzle you're trying to play is invalid, fix it and try again" << std::endl;
-                //     return;
-                // }
+                else if((c != level.get_invisibleWall()) && (c!= level.get_wall())){
+                     std::cerr << "Error: the puzzle you're trying to play is invalid, fix it and try again" << std::endl;
+                     exit(1);
+                }
                 jj++;
             }
         }
