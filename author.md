@@ -16,7 +16,7 @@ Preencha os itens que você implementou, indicando qual a nota esperada para cad
 | ---------------------------------------------------------------------------- | :----------: | :------------: |
 | Lê e valida corretamente um arquivo de entrada de nível                      |      20      |       20       |
 | Sugere direções aleatórias para a cobra seguir                               |      10      |       10       |
-| Determina corretamente um conjunto de direções para a cobra ir até a comida  |       0      |       50       |
+| Determina corretamente um conjunto de direções para a cobra ir até a comida  |      50      |        0       |
 | Exibe corretamente os vários estados do jogo                                 |      30      |       30       |
 
 
