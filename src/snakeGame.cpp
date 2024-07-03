@@ -139,8 +139,8 @@ switch (m_game_state) {
 
     case game_state_e::RUNNING:
         if (m_start) {
-            //initializeSnake(levels[currentLevel].get_spawnLocation().first, levels[currentLevel].get_spawnLocation().second, DOWN); //SEGMENTATION FAULT
             snake.initialize(levels[currentLevel].get_spawnLocation().first, levels[currentLevel].get_spawnLocation().second, DOWN);
+            snake.set_foodEaten(0);
             levels[currentLevel].update_matrix(snake);
             levels[currentLevel].randomly_place_foood(snake);
             m_start = false; // Resetar m_start após inicialização

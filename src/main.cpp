@@ -12,11 +12,11 @@
 #include "snakeGame.h"
 
 /*!
-* Checks if a directory exists.
+* Checks if a file exists.
 *
-* @param target The path of the directory to check.
+* @param target The path of the file to check.
 *
-* @return True if the directory exists, false otherwise.
+* @return True if the directory file, false otherwise.
 */
 
 bool file_exists1(const std::string &str) {

@@ -54,7 +54,6 @@ public:
         m_visitedLocations.clear();  // Clear visited locations
         m_visitedLocations.push_back(m_headLocation);  // Add the head to visited locations
         m_isAlive = true;  // Reset isAlive status
-        m_foodEaten = 0;
     }
 
     bool check_coord_in_body(std::pair<int, int> coord);
