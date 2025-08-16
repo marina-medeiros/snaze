@@ -174,7 +174,7 @@ switch (m_game_state) {
 
             player.find_solution(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
 
-            std::deque<Direction> route = player.get_route();
+            std::deque<Direction> route = player.get_final_route();
 
             for(Direction d : route){
                 switch (d)

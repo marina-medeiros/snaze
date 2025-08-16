@@ -102,45 +102,106 @@ std::vector<std::pair<int, int>> find_possible_coordenates(Direction headFacing,
         
 */
 
+// bool Player::find_solution(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations){
+//     std::pair<int, int> currentHead = snake.get_headLocation();
+//     Direction dir = snake.get_headFacing();
+//     std::vector<std::pair<int, int>> checked_locations;
+
+//     //std::deque<std::pair<int, int>> search_queue = {};
+
+//     std::deque<std::pair<std::pair<int,int>, std::deque<Direction>>> search_queue;
+
+//     auto isVisited = [&](int x, int y) {
+//         return std::find(checked_locations.begin(), checked_locations.end(), std::make_pair(x, y)) != checked_locations.end();
+//     };
+
+//     std::deque<Direction> initial_route; //
+//     search_queue.push_back({currentHead, initial_route}); //
+//     checked_locations.push_back(currentHead); //
+
+//     // std::vector<std::pair<int,int>> possible_coordenates = find_possible_coordenates(dir, currentHead, matrix, emptyLocations, route);
+
+//     // for (std::pair<int,int> &i : possible_coordenates){
+//     //     search_queue.push_front(i);
+//     // }
+
+//     // atualizar dir e currentHead
+
+//     while(!search_queue.empty()){
+//         //std::pair<int,int> position = search_queue.front();
+//         auto [position, route] = search_queue.front();
+//         search_queue.pop_front();
+
+//         if(!isVisited(position.first, position.second)){
+//             if(matrix[position.first][position.second] == '9'){
+//                 return true;
+//             }
+//             else{
+//                 std::vector<std::pair<int,int>> possible_coordenates = find_possible_coordenates(route.front(), position, matrix, emptyLocations, route);
+
+//                 for (std::pair<int,int> &i : possible_coordenates){
+//                     search_queue.push_back(i);
+//                 }
+//                 checked_locations.push_back(position);
+//             }
+//         }
+//     }  
+//     return false;  
+// }
+
+
+
 bool Player::find_solution(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations){
     std::pair<int, int> currentHead = snake.get_headLocation();
     Direction dir = snake.get_headFacing();
-    //std::vector<Direction> route; 
-    std::vector<std::pair<int, int>> checked_locations;
-    std::deque<std::pair<int, int>> search_queue = {};
 
+    std::vector<std::pair<int, int>> checked_locations;
     auto isVisited = [&](int x, int y) {
         return std::find(checked_locations.begin(), checked_locations.end(), std::make_pair(x, y)) != checked_locations.end();
     };
 
-    std::vector<std::pair<int,int>> possible_coordenates = find_possible_coordenates(dir, currentHead, matrix, emptyLocations, route);
+    // fila agora guarda posição + rota até ela
+    std::deque<std::pair<std::pair<int,int>, std::deque<Direction>>> search_queue;
 
-    for (std::pair<int,int> &i : possible_coordenates){
-        search_queue.push_front(i);
-    }
+    // rota inicial vazia
+    std::deque<Direction> initial_route;
+    search_queue.push_back({currentHead, initial_route});
+    checked_locations.push_back(currentHead);
 
-    // atualizar dir e currentHead
-
-    while(search_queue.size() > 0){
-        std::pair<int,int> position = search_queue.front();
+    while(!search_queue.empty()){
+        auto [position, route] = search_queue.front();
         search_queue.pop_front();
 
-        if(!isVisited(position.first, position.second)){
-            if(matrix[position.first][position.second] == '9'){
-                return true;
-            }
-            else{
-                std::vector<std::pair<int,int>> possible_coordenates = find_possible_coordenates(route.front(), position, matrix, emptyLocations, route);
+        int x = position.first;
+        int y = position.second;
 
-                for (std::pair<int,int> &i : possible_coordenates){
-                    search_queue.push_back(i);
-                }
-                checked_locations.push_back(position);
+        // achou fruta
+        if(matrix[x][y] == '9'){
+            // aqui você já tem a rota até a fruta
+            this->final_route = route;  // supondo que você guarde num atributo
+            return true;
+        }
+
+        // expande vizinhos
+        std::vector<std::pair<int,int>> possible_coordenates = find_possible_coordenates(dir, position, matrix, emptyLocations, route);
+
+        for(size_t i = 0; i < possible_coordenates.size(); i++){
+            auto [nx, ny] = possible_coordenates[i];
+            if(!isVisited(nx, ny)){
+                auto newRoute = route;      // copia a rota
+                newRoute.push_back(route.back()); // adiciona a direção correspondente
+                search_queue.push_back({{nx,ny}, newRoute});
+                checked_locations.push_back({nx,ny});
             }
         }
-    }  
-    return false;  
+    }
+    return false;
 }
+
+
+
+
+
 
 /**
  * @brief Randomly generates a new direction for the snake to move in.
@@ -153,6 +214,7 @@ bool Player::find_solution(Snake& snake, std::vector<std::vector<char>> matrix, 
  * @return The new direction for the snake to move in.
  */
 Direction Player::randomly_generate_direction(Snake& snake, std::vector<std::vector<char>> matrix, std::vector<std::pair<int, int>> emptyLocations) {
+
     std::pair<int, int> currentHead = snake.get_headLocation();
     Direction dir = snake.get_headFacing();
     std::vector<Direction> possibleDirections;
