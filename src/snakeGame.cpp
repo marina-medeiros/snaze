@@ -170,7 +170,38 @@ switch (m_game_state) {
 
         {
             // Bloco adicional para controlar o escopo de novas variáveis locais
-            Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
+            //Direction newDir = player.randomly_generate_direction(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
+
+            player.find_solution(snake, levels[currentLevel].get_levelMaze(), levels[currentLevel].get_emptyLocations());
+
+            std::deque<Direction> route = player.get_route();
+
+            for(Direction d : route){
+                switch (d)
+                {
+                case LEFT:
+                    std::cout<< "left" << std::endl;
+                    break;
+                case RIGHT:
+                    std::cout<< "right" << std::endl;
+                    break;
+                case UP:
+                    std::cout<< "up" << std::endl;
+                    break;
+                case DOWN:
+                    std::cout<< "down" << std::endl;
+                    break;
+                
+                default:
+                    break;
+                }
+            }
+
+            
+            Direction newDir = route.front();
+            route.pop_front();
+
+
             snake.set_headFacing(newDir);
             int foodEaten = snake.get_foodEaten();
             snake.move_snake(levels[currentLevel]);

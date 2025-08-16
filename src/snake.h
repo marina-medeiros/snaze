@@ -8,6 +8,7 @@
 class Level;
 
 enum Direction { UP, DOWN, LEFT, RIGHT };
+
 class Snake{
 private:
     int m_foodEaten = 0;
